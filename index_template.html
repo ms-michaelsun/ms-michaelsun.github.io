@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Info -->
+    <title>{{ name }} - Portfolio</title>
+    <meta name="description" content="{{ name }} - {{ summary }}">
+    <meta name="author" content="{{ name }}">
+
+    <!-- Open Graph Tags: The title of the page for social media sharing. It can match the title tag or be more descriptive. -->
+    <meta property="og:title" content="{{ name }}">
+
+    <!-- Open Graph Tags: Typically set to "website" for static sites or "article" for content-heavy pages. -->
+    <meta property="og:type" content="website">
+
+    <!-- Open Graph Tags: The URL of the page, used to ensure link previews resolve to the correct page. -->
+    <meta property="og:url" content="{{ base_url }}/index.html">
+
+    <!-- Open Graph Tags: URL of an image that represents the page. Useful for link previews. -->
+    <meta property="og:image" content="{{ base_url }}/{{ image_path }}">
+
+    <!-- Open Graph Tags: Provides an alternative text for the image to improve accessibility. -->
+    <meta property="og:image:alt" content="{{ name }} Profile Image">
+
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Custom Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+          rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/modern_normalize.css" />
+    <link rel="stylesheet" href="css/html5bp.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Set a theme color that matches your website's primary color -->
+    <meta name="theme-color" content="#fafafa">
+
+    <!-- Favicon for all browsers -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+
+    <!-- Apple touch icon for iOS devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon.png">
+
+    <!-- Web app manifest for Progressive Web Apps -->
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Content Security Policy: Uncomment to enhance security by restricting where content can be loaded from (useful for preventing certain attacks like XSS). Update if adding external sources (e.g., Google Fonts, Bootstrap CDN, analytics, etc). -->
+    <!-- <meta http-equiv="Content-Security-Policy" content=" default-src 'self'; script-src 'self' code.jquery.com; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com; img-src 'self' images.examplecdn.com; "> -->
+  </head>
+
+  <body>
+    <header class="page-header">
+      <div class="container">
+        <div class="header-top flex-responsive">
+          {% if image_path %}
+            <img class="header-image"
+                 width="256"
+                 height="256"
+                 src="{{ image_path }}"
+                 alt="{{ name }} Profile Image" />
+          {% endif %}
+          <div class="header-info">
+            <h1>{{ name }}</h1>
+            {% if label %}<h2 class="header-label">{{ label }}</h2>{% endif %}
+            {% if contact.email or contact.phone or contact.website or contact.location %}
+              <address>
+                <ul class="inline-list flex-responsive">
+                  {% if contact.email %}
+                    <li>
+                      <a href="mailto:{{ contact.email }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="email-icon">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                          <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        {{ contact.email }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if contact.phone %}
+                    <li>
+                      <a href="tel:+{{ contact.phone | replace('-', '') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="phone-icon">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        {{ contact.phone }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if contact.website %}
+                    <li>
+                      <a href="{{ contact.website }}" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="website-icon">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <line x1="2" y1="12" x2="22" y2="12"></line>
+                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        {{ contact.website | replace('https://', '') | replace('http://', '') | replace('www.', '') }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  {% if contact.location %}
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="location-icon">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                      </svg>
+                      {{ contact.location }}
+                    </li>
+                  {% endif %}
+                </ul>
+              </address>
+            {% endif %}
+            {% if social_links %}
+              <ul class="inline-list flex-responsive">
+                {% for link in social_links %}
+                  <li>
+                    <a href="{{ link.url }}"
+                       rel="noopener noreferrer"
+                       aria-label="{{ link.label }}"
+                       class="link-with-icon">
+                      {% if link.svg_data %}{{ link.svg_data | safe }}{% endif %}
+                      {{ link.label }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if summary %}<p class="header-summary">{{ summary }}</p>{% endif %}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="container">
+        <main>
+          {% if work_experience %}
+            <section>
+              <h2 class="section-heading">Work Experience</h2>
+              {% for job in work_experience %}
+                <section>
+                  <h3>
+                    {% if job.url %}
+                      {{ job.position }} at <a href="{{ job.url }}">{{ job.company }}</a>
+                    {% else %}
+                      {{ job.position }} at {{ job.company }}
+                    {% endif %}
+                  </h3>
+                  {% if job.start_date and job.end_date %}
+                    <p class="section-label">{{ job.start_date }} - {{ job.end_date }}</p>
+                  {% endif %}
+                  {% if job.summary %}<p>{{ job.summary }}</p>{% endif %}
+                  {% if job.highlights %}
+                    <ul>
+                      {% for highlight in job.highlights %}<li>{{ highlight }}</li>{% endfor %}
+                    </ul>
+                  {% endif %}
+                </section>
+              {% endfor %}
+            </section>
+          {% endif %}
+
+          {% if education %}
+            <section>
+              <h2 class="section-heading">Education</h2>
+              {% for edu in education %}
+                <section>
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div style="text-align: left;">
+                      <h3 style="margin: 0; font-weight: bold;">
+                        {{ edu.degrees | join(', ') }}
+                      </h3>
+                      <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">
+                        {% if edu.url %}
+                          <a href="{{ edu.url }}">{{ edu.institution }}</a>
+                        {% else %}
+                          {{ edu.institution }}
+                        {% endif %}
+                      </p>
+                    </div>
+                    <div style="text-align: right;">
+                      {% if edu.graduation_date %}
+                        <p class="section-label" style="margin: 0;">{{ edu.graduation_date }}</p>
+                      {% endif %}
+                      {% if edu.location %}
+                        <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem;">{{ edu.location }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% if edu.honors %}
+                    <h4>Honors</h4>
+                    <ul>
+                      {% for hon in edu.honors %}<li>{{ hon }}</li>{% endfor %}
+                    </ul>
+                  {% endif %}
+                  {% if edu.gpa_major or edu.gpa_cumulative %}
+                    <p>
+                      {% if edu.gpa_major %}<span class="block">GPA in Major: {{ edu.gpa_major }}</span>{% endif %}
+                      {% if edu.gpa_cumulative %}<span class="block">Cumulative GPA: {{ edu.gpa_cumulative }}</span>{% endif %}
+                    </p>
+                  {% endif %}
+                </section>
+              {% endfor %}
+            </section>
+          {% endif %}
+
+          {% if skills %}
+            <!-- Soft Skills Section -->
+            <section>
+              <h2 class="section-heading">Soft Skills</h2>
+              <ul class="unstyled-list">
+                {% for skill in skills if skill.name in ['Clear communication', 'Collaboration', 'Critical thinking', 'Adaptability', 'Fast-learner'] %}
+                  <li>
+                    <h3>{{ skill.name }}</h3>
+                    <div class="skill-bar">
+                      <div class="skill-bar-fill w-{{ skill.proficiency }}"
+                           role="meter"
+                           aria-valuenow="{{ skill.proficiency }}"
+                           aria-valuemin="0"
+                           aria-valuemax="100">
+                        <span class="skill-bar-label">
+                        {% if skill.proficiency <= 20 %}
+                          Beginner
+                        {% elif skill.proficiency <= 40 %}
+                          Novice
+                        {% elif skill.proficiency <= 60 %}
+                          Intermediate
+                        {% elif skill.proficiency <= 80 %}
+                          Advanced
+                        {% else %}
+                          Expert
+                        {% endif %}
+                      </span>
+                      </div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+            
+            <!-- Technical Skills Section -->
+            <section>
+              <h2 class="section-heading">Tools & Technologies</h2>
+              <ul class="unstyled-list">
+                {% for skill in skills if skill.name not in ['Clear communication', 'Collaboration', 'Critical thinking', 'Adaptability', 'Fast-learner'] %}
+                  <li>
+                    <h3>{{ skill.name }}</h3>
+                    <div class="skill-bar">
+                      <div class="skill-bar-fill w-{{ skill.proficiency }}"
+                           role="meter"
+                           aria-valuenow="{{ skill.proficiency }}"
+                           aria-valuemin="0"
+                           aria-valuemax="100">
+                        <span class="skill-bar-label">
+                        {% if skill.proficiency <= 20 %}
+                          Beginner
+                        {% elif skill.proficiency <= 40 %}
+                          Novice
+                        {% elif skill.proficiency <= 60 %}
+                          Intermediate
+                        {% elif skill.proficiency <= 80 %}
+                          Advanced
+                        {% else %}
+                          Expert
+                        {% endif %}
+                      </span>
+                      </div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
+
+          {% if languages %}
+            <section>
+              <h2 class="section-heading">Languages</h2>
+              <ul class="unstyled-list">
+                {% for lang in languages %}
+                  <li>
+                    <h3>{{ lang.language }}</h3>
+                    <div class="skill-bar">
+                      <div class="skill-bar-fill w-{{ lang.proficiency | default(50) }}"
+                           role="meter"
+                           aria-valuenow="{{ lang.proficiency | default(50) }}"
+                           aria-valuemin="0"
+                           aria-valuemax="100">
+                        <span class="skill-bar-label">
+                          {% if lang.proficiency <= 20 %}
+                            A1
+                          {% elif lang.proficiency <= 40 %}
+                            A2
+                          {% elif lang.proficiency <= 50 %}
+                            B1
+                          {% elif lang.proficiency <= 70 %}
+                            B2
+                          {% elif lang.proficiency <= 90 %}
+                            C1
+                          {% else %}
+                            C2
+                          {% endif %}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
+
+          {% if interests %}
+            <section>
+              <h2 class="section-heading">Interests</h2>
+              {% for interest in interests %}
+                <section>
+                  <h3>{{ interest.name }}</h3>
+                  {% if interest.summary %}<p>{{ interest.summary }}</p>{% endif %}
+                  {% if interest.images %}
+                    <div class="gallery side-gallery">
+                      {% for img in interest.images %}
+                        <figure>
+                          <img width="600"
+                               height="338"
+                               src="{{ img.img_path }}"
+                               alt="{{ img.caption }}">
+                          <figcaption>{{ img.caption }}</figcaption>
+                        </figure>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </section>
+              {% endfor %}
+            </section>
+          {% endif %}
+
+          {% if publications %}
+            <section>
+              <h2 class="section-heading">Publications</h2>
+              {% for pub in publications %}
+                <section>
+                  <h3>
+                    {% if pub.url %}
+                      <a href="{{ pub.url }}">{{ pub.title }}</a>
+                    {% else %}
+                      {{ pub.title }}
+                    {% endif %}
+                  </h3>
+                  {% if pub.authors %}<p class="section-label">{{ pub.authors }}</p>{% endif %}
+                  {% if pub.journal %}<p>{{ pub.journal }}</p>{% endif %}
+                  {% if pub.date %}<p class="section-label">{{ pub.date }}</p>{% endif %}
+                  {% if pub.abstract %}<p>{{ pub.abstract }}</p>{% endif %}
+                </section>
+              {% endfor %}
+            </section>
+          {% endif %}
+        </main>
+
+        <!-- Sidebar Section -->
+        <aside>
+          {% if projects %}
+            <section>
+              <h2 class="section-heading">Projects</h2>
+              {% for project in projects %}
+                <section>
+                  <h3>
+                    {% if project.url %}
+                      <a href="{{ project.url }}">{{ project.title }}</a>
+                    {% else %}
+                      {{ project.title }}
+                    {% endif %}
+                  </h3>
+                  {% if project.summary %}<p>{{ project.summary }}</p>{% endif %}
+                  {% if project.highlights %}
+                    <ul>
+                      {% for highlight in project.highlights %}<li>{{ highlight }}</li>{% endfor %}
+                    </ul>
+                  {% endif %}
+                  {% if project.images %}
+                    <div class="gallery main-gallery">
+                      {% for img in project.images %}
+                        <figure>
+                          <img width="600"
+                               height="338"
+                               src="{{ img.img_path }}"
+                               alt="{{ img.caption }}">
+                          <figcaption>{{ img.caption }}</figcaption>
+                        </figure>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </section>
+              {% endfor %}
+            </section>
+          {% endif %}
+
+
+
+          {% if references %}
+            <section>
+              <h2 class="section-heading">References</h2>
+              {% for ref in references %}
+                <section>
+                  {% if ref.name %}<h3>{{ ref.name }}</h3>{% endif %}
+                  {% if ref.relation %}<p class="section-label">{{ ref.relation }}</p>{% endif %}
+                  {% if ref.reference %}
+                    <blockquote>
+                      {{ ref.reference }}
+                    </blockquote>
+                  {% endif %}
+                </section>
+              {% endfor %}
+            </section>
+          {% endif %}
+        </aside>
+      </div>
+    </div>
+
+    <footer class="page-footer">
+      <div class="container">
+        <p>© {{ current_year }} {{ name }}. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
